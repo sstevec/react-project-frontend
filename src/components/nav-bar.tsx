@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-export default function Navbar() {
+export default function NavBar() {
     const router = useRouter();
     const [profilePic, setProfilePic] = useState<string | null>(null);
 
@@ -43,7 +43,7 @@ export default function Navbar() {
             {/* Middle Section: Navigation Links */}
             <div className="space-x-4">
                 <Button variant="ghost" asChild>
-                    <Link href="/public">Dashboard</Link>
+                    <Link href="/">Dashboard</Link>
                 </Button>
                 <Button variant="ghost" asChild>
                     <Link href="/friends">Friends</Link>
