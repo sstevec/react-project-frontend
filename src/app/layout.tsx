@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import "../styles/custom-theme-based.css"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,14 +24,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     if (pathname === "/login") {
         return (
             <html lang="en">
-            <body>{children}</body>
+            <body style={{ margin: 0, padding: 0, height: "100vh", width: "100vw" }}>{children}</body>
             </html>
         );
     }
 
     return isAuthenticated ? (
         <html lang="en">
-        <body>
+        <body style={{ margin: 0, padding: 0, height: "100vh", width: "100vw" }}>
         <Navbar />
         <main className="p-6">{children}</main>
         </body>

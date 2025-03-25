@@ -1,40 +1,33 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer components {
-    /* Buttons */
-    .btn-primary {
-        @apply bg-primary text-textPrimary
-        h-14 m-1 rounded-md px-6 font-medium transition-all duration-200 shadow-md;
-    }
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--textPrimary);
+    @apply h-14 px-4 py-2 font-medium rounded-lg transition duration-200 ease-in-out;
+}
 
-    .btn-primary:hover {
-        @apply bg-opacity-50;
-    }
+.btn-primary:hover {
+    background-color: var(--primary);
+    opacity: 0.8;
+}
 
-    .btn-primary:disabled {
-        @apply opacity-50 cursor-not-allowed;
-    }
+.btn-primary:disabled {
+    opacity: 0.5; /* opacity-50 */
+    cursor: not-allowed; /* cursor-not-allowed */
+}
 
-    .btn-secondary {
-        @apply px-4 py-2 text-white font-medium rounded-lg transition duration-200 ease-in-out shadow-md;
-        @apply bg-secondary hover:bg-secondary-hover;
-    }
+.btn-highlight {
+    background-color: var(--highlight);
+    color: var(--textHighlight);
+    @apply h-14 px-4 py-2 font-medium rounded-lg transition duration-200 ease-in-out;
+}
 
-    /* Input Fields */
-    .input-field {
-        @apply w-full px-4 py-2 border rounded-lg text-gray-900 bg-white focus:outline-none;
-        @apply focus:ring-2 focus:ring-primary focus:border-primary;
-    }
+.btn-highlight:hover {
+    background-color: var(--highlight);
+    opacity: 0.8;
+}
 
-    /* Form Containers */
-    .form-container {
-        @apply max-w-md w-full bg-white p-6 rounded-xl shadow-lg;
-    }
-
-    /* Links */
-    .link {
-        @apply text-primary cursor-pointer hover:underline;
-    }
+.btn-highlight:disabled {
+    opacity: 0.5; /* opacity-50 */
+    cursor: not-allowed; /* cursor-not-allowed */
 }

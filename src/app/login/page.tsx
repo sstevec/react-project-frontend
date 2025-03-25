@@ -54,11 +54,11 @@ export default function AuthPage() {
     };
 
     return (
-        <div className="flex h-screen p-0">
+        <div className="flex h-screen">
             {/* Left Box (60%) */}
-            <div className="w-3/5 flex justify-center items-center">
+            <div className="w-3/5 h-screen flex justify-center items-center">
                 {/* Image Placeholder */}
-                <div className="bg-primary text-white p-4 rounded-lg">Hello, World!</div>
+                <div className="h-[300px] w-40 bg-primary text-amber-50 p-4 rounded-lg ">Hello, World!</div>
             </div>
 
             {/* Right Box (40%) */}
@@ -69,7 +69,7 @@ export default function AuthPage() {
                             <>
                                 <h2 className="text-xl font-semibold mb-4">Sign In</h2>
                                 <form onSubmit={handleSubmit} className="space-y-4">
-                                    <div className="my-4 h-80">
+                                    <div className="my-4">
                                         <Label>Email</Label>
                                         <Input type="email" name="email" required onChange={handleChange} />
                                     </div>
@@ -85,7 +85,7 @@ export default function AuthPage() {
                       Forgot password?
                     </span>
                                     </div>
-                                    <Button type="submit" className="w-full btn-primary">
+                                    <Button type="submit" className="w-full btn-highlight">
                                         Sign In
                                     </Button>
                                 </form>
