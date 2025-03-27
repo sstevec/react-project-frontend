@@ -48,7 +48,15 @@ export default function AuthPage() {
             const {data} = await axiosInstance.post(endpoint, formData);
 
             if (formType === "login") {
-                localStorage.setItem("gym-sync-jwt-token", data.jwt);
+                if (data.payload.jwt) {
+                    localStorage.setItem("gym-sync-jwt-token", data.payload.jwt);
+                    localStorage.setItem("gym-sync-id", data.payload.id);
+                    localStorage.setItem("gym-sync-name", data.payload.name);
+                    localStorage.setItem("gym-sync-email", data.payload.email);
+                } else {
+                    showAlert("Login Failed", "error");
+                    return
+                }
                 showAlert("Login Success", "success");
                 router.push("/");
             } else if (formType === "signup") {
@@ -138,7 +146,6 @@ export default function AuthPage() {
                                         <SelectContent>
                                             <SelectItem value="male">Male</SelectItem>
                                             <SelectItem value="female">Female</SelectItem>
-                                            <SelectItem value="other">Other</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
