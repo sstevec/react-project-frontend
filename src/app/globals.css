@@ -36,9 +36,15 @@
 
     --background: oklch(0.972 0.006 170.448);
     --primary: oklch(0.357 0.064 180.812);
+    --primary-light: oklch(0.679 0.112 182.011);
+    --highlight-dark: oklch(0.668 0.144 69.656);
     --highlight: oklch(0.804 0.159 74.886);
+    --highlight-light: oklch(0.832 0.118 79.267);
     --secondary: oklch(0.822 0.104 6.11);
+    --third: oklch(0.606 0.162 248.41);
+    --third-light: oklch(0.719 0.129 231.097);
     --error: oklch(0.669 0.206 28.058);
+    --error-light: oklch(0.71 0.178 26.539);
     --textPrimary: oklch(0.972 0.006 170.448);
     --textHighlight: oklch(0.357 0.064 180.812);
     --textWarning: oklch(0.804 0.159 74.886);

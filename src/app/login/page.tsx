@@ -21,6 +21,7 @@ export default function AuthPage() {
         dateOfBirth: "",
         gender: "",
         weight: "",
+        height: "",
     });
 
     const handleChange = (e: { target: { name: any; value: any; }; }) => {
@@ -49,10 +50,10 @@ export default function AuthPage() {
 
             if (formType === "login") {
                 if (data.payload.jwt) {
-                    localStorage.setItem("gym-sync-jwt-token", data.payload.jwt);
-                    localStorage.setItem("gym-sync-id", data.payload.id);
-                    localStorage.setItem("gym-sync-name", data.payload.name);
-                    localStorage.setItem("gym-sync-email", data.payload.email);
+                    sessionStorage.setItem("gym-sync-jwt-token", data.payload.jwt);
+                    sessionStorage.setItem("gym-sync-id", data.payload.id);
+                    sessionStorage.setItem("gym-sync-name", data.payload.name);
+                    sessionStorage.setItem("gym-sync-email", data.payload.email);
                 } else {
                     showAlert("Login Failed", "error");
                     return
@@ -152,6 +153,10 @@ export default function AuthPage() {
                                 <div>
                                     <Label>Body Weight (kg)</Label>
                                     <Input type="number" name="weight" required onChange={handleChange}/>
+                                </div>
+                                <div>
+                                    <Label>Height (cm)</Label>
+                                    <Input type="number" name="height" required onChange={handleChange}/>
                                 </div>
                                 <span className="text-blue-600 text-sm cursor-pointer"
                                       onClick={() => setFormType("login")}>

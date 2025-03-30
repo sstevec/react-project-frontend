@@ -13,7 +13,7 @@ export default function NavBar() {
 
     useEffect(() => {
         async function fetchUserProfile() {
-            const token = localStorage.getItem("token");
+            const token = sessionStorage.getItem("token");
             if (!token) return;
 
             try {
@@ -68,7 +68,7 @@ export default function NavBar() {
                     <DropdownMenuItem onClick={() => router.push("/profile")}>Profile</DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
-                            localStorage.removeItem("gym-sync-jwt-token");
+                            sessionStorage.removeItem("gym-sync-jwt-token");
                             router.push("/login");
                         }}
                     >

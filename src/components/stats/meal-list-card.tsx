@@ -42,7 +42,7 @@ export default function MealListCard() {
     };
 
     useEffect(() => {
-        const uid = localStorage.getItem("gym-sync-id");
+        const uid = sessionStorage.getItem("gym-sync-id");
         if (uid) {
             setUserId(uid);
             fetchMeals(uid);
@@ -58,14 +58,14 @@ export default function MealListCard() {
     };
 
     return (
-        <Card className="w-full min-w-[350px] h-full flex flex-col">
+        <Card className="w-full min-w-[350px] h-full flex flex-col card-primary ">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Meals</h2>
                 <div className="space-x-2">
                     <Button size="sm" variant="outline" onClick={() => setShowAddModal(true)}>
                         + Add
                     </Button>
-                    <Button size="sm" variant="secondary">History</Button>
+                    <Button size="sm" >History</Button>
                 </div>
             </CardHeader>
 
@@ -76,7 +76,7 @@ export default function MealListCard() {
                     return (
                         <Card
                             key={meal.id}
-                            className="cursor-pointer hover:shadow-lg transition-all"
+                            className="cursor-pointer hover:shadow-lg transition-all card-secondary"
                             onClick={() => setSelectedMeal(meal)}
                         >
                             <CardHeader>

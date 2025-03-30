@@ -39,7 +39,7 @@ export default function ExerciseListCard() {
     };
 
     useEffect(() => {
-        const uid = localStorage.getItem("gym-sync-id");
+        const uid = sessionStorage.getItem("gym-sync-id");
         if (uid) {
             setUserId(uid);
             fetchExercises(uid);
@@ -55,12 +55,12 @@ export default function ExerciseListCard() {
     };
 
     return (
-        <Card className="w-full min-w-[350px] h-full flex flex-col">
+        <Card className="w-full min-w-[350px] h-full flex flex-col card-primary ">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Exercises</h2>
                 <div className="space-x-2">
                     <Button size="sm" variant="outline" onClick={() => setShowAddModal(true)}>+ Add</Button>
-                    <Button size="sm" variant="secondary">History</Button>
+                    <Button size="sm" >History</Button>
                 </div>
             </CardHeader>
 
@@ -71,7 +71,7 @@ export default function ExerciseListCard() {
                     return (
                         <Card
                             key={item.id}
-                            className="p-3 cursor-pointer hover:shadow-md"
+                            className="p-3 cursor-pointer hover:shadow-md card-secondary"
                             onClick={() => setSelectedExercise(item)}
                         >
                             <div className="font-medium text-base flex justify-between">

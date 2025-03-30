@@ -12,7 +12,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
     const pathname = usePathname();
 
     useEffect(() => {
-        const token = localStorage.getItem("gym-sync-jwt-token");
+        const token = sessionStorage.getItem("gym-sync-jwt-token");
 
         let isAuthenticated = false;
         if(!token || token === "" || token === "undefined") {
@@ -43,7 +43,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
         <div className="flex flex-col h-full w-full">
             <NavBar/>
             <AlertProvider>
-                <main className="flex-1 overflow-hidden">{children}</main>
+                <main className="flex-1 overflow-auto">{children}</main>
             </AlertProvider>
         </div>
         </body>
