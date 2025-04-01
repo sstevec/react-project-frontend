@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {useEffect, useState} from "react";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
 import axios from "@/lib/axios";
-import { useAlert } from "@/components/alert/alert-provider";
+import {useAlert} from "@/components/alert/alert-provider";
 import ExerciseDetailModal from "./exercise-detail-modal";
+import {Clock, Flame, Plus} from "lucide-react";
 
 interface ExerciseItem {
     id: string;
@@ -26,12 +27,12 @@ export default function ExerciseListCard() {
     const [userId, setUserId] = useState<string | null>(null);
     const [selectedExercise, setSelectedExercise] = useState<ExerciseItem | null>(null);
     const [showAddModal, setShowAddModal] = useState(false);
-    const { showAlert } = useAlert();
+    const {showAlert} = useAlert();
 
     const fetchExercises = async (uid: string) => {
         const today = new Date().toISOString().split("T")[0];
         try {
-            const { data } = await axios.get(`/api/calories/exercise/${uid}/date/${today}`);
+            const {data} = await axios.get(`/api/calories/exercise/${uid}/date/${today}`);
             setExercises(data.payload || []);
         } catch {
             showAlert("Failed to load exercises", "error");
@@ -55,43 +56,63 @@ export default function ExerciseListCard() {
     };
 
     return (
-        <Card className="w-full min-w-[350px] h-full flex flex-col card-primary ">
+        <Card className="w-full min-w-[350px] h-full flex flex-col card-dark">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Exercises</h2>
                 <div className="space-x-2">
-                    <Button size="sm" variant="outline" onClick={() => setShowAddModal(true)}>+ Add</Button>
-                    <Button size="sm" >History</Button>
+                    <Button size="icon" variant="outline" onClick={() => setShowAddModal(true)}>
+                        <Plus/>
+                    </Button>
                 </div>
             </CardHeader>
 
-            <CardContent className="flex-1 overflow-y-auto space-y-3">
-                {exercises.map((item) => {
-                    const detail = parseDetail(item.detail);
+            <CardContent className="flex-1 overflow-y-auto">
+                {/* Grid layout for two columns */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {exercises.map((item) => {
+                        const detail = parseDetail(item.detail);
 
-                    return (
-                        <Card
-                            key={item.id}
-                            className="p-3 cursor-pointer hover:shadow-md card-secondary"
-                            onClick={() => setSelectedExercise(item)}
-                        >
-                            <div className="font-medium text-base flex justify-between">
-                                <span>{item.name}</span>
-                                <span>{item.calories} cal</span>
-                            </div>
-                            {detail && (
-                                <div className="text-sm text-muted-foreground">
-                                    {detail.exercise} · {detail.intensity} · {detail.duration} min
+                        return (
+                            <Card
+                                key={item.id}
+                                className="p-3 cursor-pointer hover:shadow-md card-light"
+                                onClick={() => setSelectedExercise(item)}
+                            >
+                                <div className="space-y-1">
+                                    {/* 1. Name */}
+                                    <div className="font-medium text-base">{item.name}</div>
+
+                                    {/* 2. Exercise + Intensity */}
+                                    {detail && (
+                                        <div className="text-sm text-muted-foreground">
+                                            {detail.exercise} · {detail.intensity}
+                                        </div>
+                                    )}
+
+                                    {/* 3. Calories with Image */}
+                                    <div className="text-sm font-semibold text-primary flex items-center space-x-1">
+                                        <Flame style={{color: 'var(--highlight)'}} size={14}/>
+                                        <span>{item.calories} cal</span>
+                                    </div>
+
+                                    {/* 4. Duration with Image */}
+                                    {detail && (
+                                        <div className="text-sm text-primary flex items-center space-x-1">
+                                            <Clock style={{color: 'var(--highlight)'}} size={14}/>
+                                            <span>{detail.duration} min</span>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </Card>
-                    );
-                })}
+                            </Card>
+                        );
+                    })}
 
-                {exercises.length === 0 && (
-                    <div className="text-center text-muted-foreground py-4">
-                        No exercises logged today.
-                    </div>
-                )}
+                    {exercises.length === 0 && (
+                        <div className="text-center text-muted-foreground py-4 col-span-2">
+                            No exercises logged today.
+                        </div>
+                    )}
+                </div>
             </CardContent>
 
             {/* Edit Modal */}

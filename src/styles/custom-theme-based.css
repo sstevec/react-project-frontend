@@ -19,7 +19,7 @@
 .btn-highlight {
     background-color: var(--highlight);
     color: var(--textHighlight);
-    @apply h-14 px-4 py-2 font-medium rounded-lg transition duration-200 ease-in-out;
+    @apply  px-4 py-2 font-medium transition duration-200 ease-in-out rounded-2xl;
 }
 
 .btn-highlight:hover {
@@ -33,18 +33,26 @@
 }
 
 
-.card-primary {
+.card-inline {
+    border: solid;
+    border-width: 1px;
+    background-color: transparent;
+    border-color: var(--primary);
+    border-radius: 18px; /* Very small round corner */
+}
+
+.card-dark {
     border: none;
-    border-radius: 8px; /* Very small round corner */
+    border-radius: 18px; /* Very small round corner */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Light box shadow */
-    background-color: rgba(255, 255, 255, 0.5); /* 50% transparent */
+    background-color: rgb(215, 227, 224); /* 50% transparent */
     backdrop-filter: blur(10px); /* Optional for a glassmorphic effect */
 }
 
-.card-secondary {
+.card-light {
     border: none;
-    border-radius: 8px; /* Very small round corner */
+    border-radius: 18px; /* Very small round corner */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Light box shadow */
-    background-color: rgba(11, 64, 7, 0.11); /* 50% transparent */
+    background-color: rgba(242, 247, 245, 1); /* 50% transparent */
     backdrop-filter: blur(10px); /* Optional for a glassmorphic effect */
 }

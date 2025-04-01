@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import axios from "@/lib/axios";
 import { useAlert } from "@/components/alert/alert-provider";
 import MealDetailModal from "./meal-detail-modal";
+import {Plus} from "lucide-react";
 
 type MealItem = {
     id: string;
@@ -58,14 +59,13 @@ export default function MealListCard() {
     };
 
     return (
-        <Card className="w-full min-w-[350px] h-full flex flex-col card-primary ">
+        <Card className="w-full min-w-[350px] h-full flex flex-col card-inline ">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Meals</h2>
                 <div className="space-x-2">
-                    <Button size="sm" variant="outline" onClick={() => setShowAddModal(true)}>
-                        + Add
+                    <Button size="icon" variant="outline" onClick={() => setShowAddModal(true)}>
+                        <Plus/>
                     </Button>
-                    <Button size="sm" >History</Button>
                 </div>
             </CardHeader>
 
@@ -76,7 +76,7 @@ export default function MealListCard() {
                     return (
                         <Card
                             key={meal.id}
-                            className="cursor-pointer hover:shadow-lg transition-all card-secondary"
+                            className="cursor-pointer hover:shadow-lg transition-all card-dark"
                             onClick={() => setSelectedMeal(meal)}
                         >
                             <CardHeader>

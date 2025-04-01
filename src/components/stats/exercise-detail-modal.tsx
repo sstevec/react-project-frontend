@@ -90,6 +90,30 @@ export default function ExerciseDetailModal({
 
     const handleSave = async () => {
         const detail = JSON.stringify({ exercise: exerciseName, intensity, metValue, duration });
+        if (!name.trim()) {
+            showAlert("Name is required", "error");
+            return;
+        }
+        if (name.length > 15) {
+            showAlert("Name is too long", "error");
+            return;
+        }
+        if (!exerciseName.trim()) {
+            showAlert("Exercise name is required", "error");
+            return;
+        }
+        if (!intensity.trim()) {
+            showAlert("Intensity is required", "error");
+            return;
+        }
+        if (!metValue || metValue <= 0) {
+            showAlert("Met Value must be greater than 0", "error");
+            return;
+        }
+        if (!duration || duration <= 0) {
+            showAlert("Duration must be greater than 0", "error");
+            return;
+        }
 
         try {
             if (mode === "edit" && exercise) {
@@ -136,7 +160,7 @@ export default function ExerciseDetailModal({
 
                 <div className="space-y-3">
                     <Label>Name</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} />
+                    <Input value={name} onChange={(e) => setName(e.target.value)}  />
 
                     {mode === "edit" && (
                         <div>

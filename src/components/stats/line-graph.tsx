@@ -15,9 +15,13 @@ interface SummaryData {
     net?: number;
 }
 
-export default function LineGraph() {
+interface LineGraphProps {
+    userId: string | null;
+    editable: boolean;
+}
+
+export default function LineGraph({ userId, editable }: LineGraphProps) {
     const [data, setData] = useState<SummaryData[]>([]);
-    const [userId, setUserId] = useState<string | null>(null);
     const { showAlert } = useAlert();
     const [selectedRange, setSelectedRange] = useState<'week' | 'month' | 'year'>('week');
     const [selectedData, setSelectedData] = useState<{ intake: boolean; exercise: boolean; net: boolean }>({
@@ -27,9 +31,7 @@ export default function LineGraph() {
     });
 
     useEffect(() => {
-        const uid = localStorage.getItem("gym-sync-id");
-        if (!uid) return;
-        setUserId(uid);
+        if (!userId) return;
         fetchData();
     }, [userId, selectedRange]);
 
@@ -60,8 +62,19 @@ export default function LineGraph() {
         setSelectedData((prev) => ({ ...prev, [key]: !prev[key] }));
     };
 
+    const LineLegend = ({ color }: { color: string | undefined }) => (
+        <div className="flex items-center space-x-2">
+            <div
+                className="w-4 h-1 rounded-full"
+                style={{ backgroundColor: color }}
+            />
+        </div>
+    );
+
+    if (!userId) return <div></div>;
+
     return (
-        <Card className="w-full h-full flex flex-col card-primary ">
+        <Card className="w-full h-full flex flex-col card-inline ">
             <CardHeader className="flex justify-between items-center">
                 {/* Range Selection */}
                 <div className="space-x-2">
@@ -79,28 +92,50 @@ export default function LineGraph() {
 
                 {/* Data Selection - Grouped horizontally */}
                 <div className="flex space-x-4">
-                    {Object.keys(selectedData).map((key) => (
-                        <label key={key} className="flex items-center space-x-2">
-                            <Checkbox
-                                checked={selectedData[key as keyof typeof selectedData]}
-                                onCheckedChange={() => handleCheckboxChange(key as keyof typeof selectedData)}
-                            />
-                            <span>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
-                        </label>
-                    ))}
+                    {Object.keys(selectedData).map((key) => {
+                        let color;
+                        switch (key) {
+                            case "intake":
+                                color = "var(--highlight)";
+                                break;
+                            case "exercise":
+                                color = "var(--primary)";
+                                break;
+                            case "net":
+                                color = data.some(d => (d.net ?? 0) >= 0) ? "var(--error)" : "var(--secondary)";
+                                break;
+                        }
+
+                        return (
+                            <label key={key} className="flex items-center space-x-2">
+                                <Checkbox
+                                    checked={selectedData[key as keyof typeof selectedData]}
+                                    onCheckedChange={() => handleCheckboxChange(key as keyof typeof selectedData)}
+                                />
+                                {/* Line-like legend instead of dot */}
+                                <LineLegend color={color}/>
+                                {/* Label with matching color */}
+                                <span style={{color}}>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            </label>
+                        );
+                    })}
                 </div>
             </CardHeader>
 
             <CardContent className="flex-1">
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data}>
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        {selectedData.intake && <Line type="monotone" dataKey="intake" stroke="var(--highlight)" dot={selectedRange === 'year' ? false : true} />}
-                        {selectedData.exercise && <Line type="monotone" dataKey="exercise" stroke="var(--primary)" dot={selectedRange === 'year' ? false : true} />}
-                        {selectedData.net && <Line type="monotone" dataKey="net" stroke={data.some(d => (d.net ?? 0) >= 0) ? "var(--error)" : "var(--secondary)"} dot={selectedRange === 'year' ? false : true} />}
+                        <XAxis dataKey="date"/>
+                        <YAxis/>
+                        <Tooltip/>
+                        {/*<Legend />*/}
+                        {selectedData.intake && <Line type="monotone" dataKey="intake" stroke="var(--highlight)"
+                                                      dot={selectedRange === 'year' ? false : true}/>}
+                        {selectedData.exercise && <Line type="monotone" dataKey="exercise" stroke="var(--primary)"
+                                                        dot={selectedRange === 'year' ? false : true}/>}
+                        {selectedData.net && <Line type="monotone" dataKey="net"
+                                                   stroke={data.some(d => (d.net ?? 0) >= 0) ? "var(--error)" : "var(--secondary)"}
+                                                   dot={selectedRange === 'year' ? false : true}/>}
                     </LineChart>
                 </ResponsiveContainer>
             </CardContent>

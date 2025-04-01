@@ -51,7 +51,7 @@ export default function NutritionTable() {
     };
 
     return (
-        <Card className="w-full h-full p-4 overflow-hidden">
+        <Card className="w-full h-full p-4 overflow-hidden card-dark">
             {/* Search Bar */}
             <div className="mb-2 max-w-[440px]">
                 <Input placeholder="Search nutrition..." onChange={handleSearch} />

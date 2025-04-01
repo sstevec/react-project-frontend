@@ -36,22 +36,22 @@ export default function NavBar() {
     }, []);
 
     return (
-        <nav className="flex justify-between items-center p-4 bg-white shadow-md">
+        <nav className="flex justify-between items-center px-4 pt-3 pb-5 bg-[var(--background)] h-20">
             {/* Left Side: Icon Placeholder */}
             <div className="text-xl font-bold">ICON</div>
 
             {/* Middle Section: Navigation Links */}
-            <div className="space-x-4">
-                <Button variant="ghost" asChild>
+            <div className="space-x-14 ">
+                <Button className="btn-highlight w-30 h-12" asChild>
                     <Link href="/">Dashboard</Link>
                 </Button>
-                <Button variant="ghost" asChild>
+                <Button className="btn-highlight w-30 h-12" asChild>
                     <Link href="/friends">Friends</Link>
                 </Button>
-                <Button variant="ghost" asChild>
+                <Button className="btn-highlight w-30 h-12" asChild>
                     <Link href="/community">Community</Link>
                 </Button>
-                <Button variant="ghost" asChild>
+                <Button className="btn-highlight w-30 h-12" asChild>
                     <Link href="/competitions">Competition</Link>
                 </Button>
             </div>
@@ -60,7 +60,7 @@ export default function NavBar() {
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Avatar>
-                        <AvatarImage src={profilePic || "/default-profile.png"} alt="Profile" />
+                        <AvatarImage src={profilePic || "/globe.svg"} alt="Profile" />
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
