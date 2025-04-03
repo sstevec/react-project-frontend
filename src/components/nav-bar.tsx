@@ -1,44 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Button} from "@/components/ui/button";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
+import axios from "@/lib/axios";
 
 export default function NavBar() {
     const router = useRouter();
     const [profilePic, setProfilePic] = useState<string | null>(null);
 
     useEffect(() => {
-        async function fetchUserProfile() {
-            const token = sessionStorage.getItem("token");
-            if (!token) return;
+        const userId = sessionStorage.getItem("gym-sync-id");
+        if (!userId) return;
 
+        const fetchUserProfile = async () => {
             try {
-                const res = await fetch("/api/users/info", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                const data = await res.json();
-
-                if (res.ok && data.payload?.profilePicUrl) {
-                    setProfilePic(data.payload.profilePicUrl);
-                } else {
-                    setProfilePic(null); // Use fallback image
-                }
-            } catch (error) {
-                console.error("Failed to fetch profile image:", error);
+                const res = await axios.get("/api/users/info");
+                const profileUrl = res.data.profilePicUrl;
+                setProfilePic(profileUrl || null);
+            } catch (err) {
+                console.error("Failed to fetch profile image:", err);
+                setProfilePic(null);
             }
-        }
+        };
 
         fetchUserProfile();
     }, []);
 
+
     return (
-        <nav className="flex justify-between items-center px-4 pt-3 pb-5 bg-[var(--background)] h-20">
+        <nav className="flex justify-between items-center px-4 pt-3 pb-5 bg-[var(--background)] h-20 min-w-[1000px]">
             {/* Left Side: Icon Placeholder */}
-            <div className="text-xl font-bold">ICON</div>
+            <img src="/logo7.png" alt="Icon" className="h-16 w-30 object-contain"/>
 
             {/* Middle Section: Navigation Links */}
             <div className="space-x-14 ">
@@ -48,11 +44,27 @@ export default function NavBar() {
                 <Button className="btn-highlight w-30 h-12" asChild>
                     <Link href="/friends">Friends</Link>
                 </Button>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button className="btn-highlight w-30 h-12">Community</Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent
+                        align="center"
+                        className="w-40"
+                    >
+                        <DropdownMenuItem onClick={() => router.push("/community/explore")}>
+                            Explore
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push("/community/friends")}>
+                            Friend Zone
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
                 <Button className="btn-highlight w-30 h-12" asChild>
-                    <Link href="/community">Community</Link>
-                </Button>
-                <Button className="btn-highlight w-30 h-12" asChild>
-                    <Link href="/competitions">Competition</Link>
+                    <Link href="/competition">Competition</Link>
                 </Button>
             </div>
 
@@ -60,7 +72,7 @@ export default function NavBar() {
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Avatar>
-                        <AvatarImage src={profilePic || "/globe.svg"} alt="Profile" />
+                        <AvatarImage src={profilePic || "/globe.svg"} alt="Profile"/>
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>

@@ -1,19 +1,12 @@
 "use client";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-    DialogClose,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
+import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label";
+import {useEffect, useState} from "react";
 import axios from "@/lib/axios";
-import { useAlert } from "@/components/alert/alert-provider";
+import {useAlert} from "@/components/alert/alert-provider";
 import CustomCombobox from "@/components/ui/custom-combobox";
 
 interface Props {
@@ -40,7 +33,7 @@ export default function ExerciseDetailModal({
                                                 onDelete,
                                                 onAdd,
                                             }: Props) {
-    const { showAlert } = useAlert();
+    const {showAlert} = useAlert();
     const [name, setName] = useState(exercise?.name || "");
     const [exerciseList, setExerciseList] = useState<string[]>([]);
     const [intensityList, setIntensityList] = useState<string[]>([]);
@@ -51,7 +44,7 @@ export default function ExerciseDetailModal({
     const [duration, setDuration] = useState(0);
 
     useEffect(() => {
-        axios.get("/api/calories/exercise/list").then(({ data }) => setExerciseList(data));
+        axios.get("/api/calories/exercise/list").then(({data}) => setExerciseList(data));
 
         if (exercise) {
             try {
@@ -71,7 +64,7 @@ export default function ExerciseDetailModal({
         setIntensity("");
         setMetValue(0);
         try {
-            const { data } = await axios.get(`/api/calories/exercise/${name}`);
+            const {data} = await axios.get(`/api/calories/exercise/${name}`);
             if (data.length > 0) {
                 const intensities = data.map((entry: any) => entry.intensity);
                 setPresetData(data);
@@ -89,7 +82,7 @@ export default function ExerciseDetailModal({
     };
 
     const handleSave = async () => {
-        const detail = JSON.stringify({ exercise: exerciseName, intensity, metValue, duration });
+        const detail = JSON.stringify({exercise: exerciseName, intensity, metValue, duration});
         if (!name.trim()) {
             showAlert("Name is required", "error");
             return;
@@ -160,7 +153,7 @@ export default function ExerciseDetailModal({
 
                 <div className="space-y-3">
                     <Label>Name</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)}  />
+                    <Input value={name} onChange={(e) => setName(e.target.value)}/>
 
                     {mode === "edit" && (
                         <div>
@@ -189,14 +182,14 @@ export default function ExerciseDetailModal({
                     <Input
                         type="number"
                         value={metValue}
-                        onChange={(e) => setMetValue(parseFloat(e.target.value))}
+                        onChange={(e) => setMetValue(parseFloat(e.target.value ? e.target.value : "0"))}
                     />
 
                     <Label>Duration (minutes)</Label>
                     <Input
                         type="number"
                         value={duration}
-                        onChange={(e) => setDuration(parseFloat(e.target.value))}
+                        onChange={(e) => setDuration(parseFloat(e.target.value ? e.target.value : "0"))}
                     />
                 </div>
 

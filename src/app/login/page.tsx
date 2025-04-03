@@ -75,16 +75,20 @@ export default function AuthPage() {
 
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen justify-between min-w-[1200px]">
             {/* Left Box (60%) */}
-            <div className="w-3/5 h-screen flex justify-center items-center">
+            <div className="w-[50%] h-screen flex justify-center items-center pl-20">
                 {/* Image Placeholder */}
-                <div className="h-50 w-50 bg-primary text-amber-50 p-4 rounded-lg ">Replace Me!</div>
+                <img
+                    src={"loginpage.png"}
+                    alt="Profile"
+                    className="rounded-full w-full h-auto object-cover"
+                />
             </div>
 
             {/* Right Box (40%) */}
-            <div className="w-2/5 flex justify-center items-center">
-                <div className="w-4/5 ">
+            <div className="w-[40%] flex justify-center items-center">
+                <div className="min-w-100 max-w-[500px]">
 
                     {formType === "login" && (
                         <>
