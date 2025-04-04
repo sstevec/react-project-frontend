@@ -156,7 +156,7 @@ export default function MealDetailModal({
 
                 <div className="space-y-4">
                     <div>
-                        <Label>Meal Name</Label>
+                        <Label className="required-label pb-1">Meal Name</Label>
                         <Input value={mealName} onChange={(e) => setMealName(e.target.value)}/>
                     </div>
 
@@ -184,7 +184,7 @@ export default function MealDetailModal({
                             />
 
                             <div className="pl-4">
-                                <Label>Ingredients</Label>
+                                <Label className="pt-2 pb-1">Ingredients</Label>
                                 {food.ingredients.map((ing, ingIdx) => (
                                     <div key={ingIdx} className="flex gap-2 items-center">
                                         <Input

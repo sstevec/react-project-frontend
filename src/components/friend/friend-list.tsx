@@ -51,6 +51,9 @@ export default function FriendList({onFriendSelect}: FriendListProps) {
             .get(`/api/users/friends/${uid}`)
             .then(({data}) => {
                 setFriends(data.payload)
+                if(data.payload && data.payload.length > 0){
+                    onFriendSelect(data.payload[0].receiver.id);
+                }
             })
             .catch(() => showAlert("Failed to load friends", "error"));
 
@@ -114,7 +117,7 @@ export default function FriendList({onFriendSelect}: FriendListProps) {
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-semibold">Friends</h1>
                 <div className="flex space-x-2">
-                    <Button className="relative" size="icon" variant="outline"
+                    <Button className="relative cursor-pointer hover:bg-white" size="icon" variant="outline"
                             onClick={() => setShowRequestsDialog(true)}>
                         <Bell/>
                         {friendRequests.length > 0 && (
@@ -122,7 +125,7 @@ export default function FriendList({onFriendSelect}: FriendListProps) {
                                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">{friendRequests.length}</span>
                         )}
                     </Button>
-                    <Button size="icon" variant="outline" onClick={() => setShowAddDialog(true)}>
+                    <Button size="icon" variant="outline" onClick={() => setShowAddDialog(true)} className="cursor-pointer hover:bg-white">
                         <Plus/>
                     </Button>
                 </div>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {useEffect, useState} from "react";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
 import axios from "@/lib/axios";
-import { useAlert } from "@/components/alert/alert-provider";
+import {useAlert} from "@/components/alert/alert-provider";
 import MealDetailModal from "./meal-detail-modal";
 import {Plus} from "lucide-react";
 
@@ -30,12 +30,12 @@ export default function MealListCard() {
     const [selectedMeal, setSelectedMeal] = useState<MealItem | null>(null);
     const [showAddModal, setShowAddModal] = useState(false);
     const [userId, setUserId] = useState<string | null>(null);
-    const { showAlert } = useAlert();
+    const {showAlert} = useAlert();
 
     const fetchMeals = async (uid: string) => {
         const today = new Date().toISOString().split("T")[0];
         try {
-            const { data } = await axios.get(`/api/calories/food/${uid}/date/${today}`);
+            const {data} = await axios.get(`/api/calories/food/${uid}/date/${today}`);
             setMeals(data.payload || []);
         } catch (err) {
             showAlert("Failed to load meals", "error");
@@ -63,13 +63,16 @@ export default function MealListCard() {
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Meals</h2>
                 <div className="space-x-2">
-                    <Button size="icon" variant="outline" onClick={() => setShowAddModal(true)}>
+                    <Button size="icon"
+                            variant="outline"
+                            onClick={() => setShowAddModal(true)}
+                            className="cursor-pointer hover:bg-white">
                         <Plus/>
                     </Button>
                 </div>
             </CardHeader>
 
-            <CardContent className="flex-1 overflow-y-auto space-y-4">
+            <CardContent className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
                 {meals.map((meal) => {
                     const foods = parseDetail(meal.detail);
 

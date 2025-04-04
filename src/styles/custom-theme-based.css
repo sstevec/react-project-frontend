@@ -56,3 +56,27 @@
     background-color: rgba(242, 247, 245, 1); /* 50% transparent */
     backdrop-filter: blur(10px); /* Optional for a glassmorphic effect */
 }
+
+.required-label::after {
+    content: " *";
+    color: red;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollbar-hide::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.3);
+    border-radius: 4px;
+}
+.scrollbar-hide::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE & Edge */
+    scrollbar-width: none; /* Firefox */
+}

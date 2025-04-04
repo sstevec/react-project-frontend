@@ -51,7 +51,7 @@ export default function WaterTracker() {
                 <img
                     src={"/water.png"}
                     alt="Loading"
-                    className="h-full w-auto object-cover"
+                    className="h-full w-auto object-cover cursor-pointer"
                 />
             </div>
 

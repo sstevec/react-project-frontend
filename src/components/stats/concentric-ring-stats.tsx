@@ -4,6 +4,8 @@ import {Card, CardContent} from "@/components/ui/card";
 import {useEffect, useState} from "react";
 import axios from "@/lib/axios";
 import {useAlert} from "@/components/alert/alert-provider";
+import {RefreshCcw} from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 const CIRCLE_CALORIES = 2000;
 
@@ -249,12 +251,15 @@ export default function ConcentricRingStats({ userId, editable }: ConcentricRing
             </svg>
 
             {/* Rest of the component remains the same */}
-            <button
-                className="absolute w-20 h-20 rounded-full bg-transparent"
+            {editable && (<Button
+                size="icon"
+                variant="ghost"
+                className="absolute top-[110px] left-[310px] w-20 h-20 rounded-full cursor-pointer"
                 onClick={fetchData}
                 disabled={!editable}
             >
-            </button>
+                {/*<RefreshCcw className="h-10 w-10  text-green-800"/>*/}
+            </Button>)}
 
             {hoverInfo && (
                 <div className="absolute bg-white shadow-lg p-2 rounded-lg text-sm">

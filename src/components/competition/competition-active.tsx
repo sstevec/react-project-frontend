@@ -5,6 +5,7 @@ import axios from "@/lib/axios";
 import {Competition} from "./competition-type";
 import CompetitionDisplayCard from "./competition-display-card";
 import {Button} from "@/components/ui/button";
+import {useAlert} from "@/components/alert/alert-provider";
 
 interface CompetitionActiveProps {
     userId: string;
@@ -21,16 +22,16 @@ interface ActiveCompetition {
 export default function CompetitionActive({userId}: CompetitionActiveProps) {
     const [competitions, setCompetitions] = useState<ActiveCompetition[]>([]);
     const [unfolded, setUnfolded] = useState(false);
+    const { showAlert } = useAlert();
 
     useEffect(() => {
         if (!userId) return;
         axios
             .get(`/api/competitions/active/${userId}`)
             .then(({data}) => {
-                console.log(data)
                 setCompetitions(data)
             })
-            .catch(() => console.error("Failed to load active competitions"));
+            .catch(() => showAlert("Failed to load active competitions", "error"));
     }, [userId]);
 
     return (

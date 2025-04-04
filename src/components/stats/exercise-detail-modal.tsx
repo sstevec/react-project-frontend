@@ -151,8 +151,8 @@ export default function ExerciseDetailModal({
                     <DialogTitle>{mode === "edit" ? "Edit Exercise" : "Add Exercise"}</DialogTitle>
                 </DialogHeader>
 
-                <div className="space-y-3">
-                    <Label>Name</Label>
+                <div className="space-y-1">
+                    <Label className="required-label pt-3">Name</Label>
                     <Input value={name} onChange={(e) => setName(e.target.value)}/>
 
                     {mode === "edit" && (
@@ -162,7 +162,7 @@ export default function ExerciseDetailModal({
                         </div>
                     )}
 
-                    <Label>Exercise</Label>
+                    <Label className="required-label pt-3">Exercise</Label>
                     <CustomCombobox
                         options={exerciseList}
                         value={exerciseName}
@@ -170,7 +170,7 @@ export default function ExerciseDetailModal({
                         placeholder="Choose an exercise"
                     />
 
-                    <Label>Intensity</Label>
+                    <Label className="required-label pt-3">Intensity</Label>
                     <CustomCombobox
                         options={intensityList}
                         value={intensity}
@@ -178,14 +178,14 @@ export default function ExerciseDetailModal({
                         placeholder="Choose intensity"
                     />
 
-                    <Label>Met Value</Label>
+                    <Label className="required-label pt-3">Met Value</Label>
                     <Input
                         type="number"
                         value={metValue}
                         onChange={(e) => setMetValue(parseFloat(e.target.value ? e.target.value : "0"))}
                     />
 
-                    <Label>Duration (minutes)</Label>
+                    <Label className="required-label pt-3">Duration (minutes)</Label>
                     <Input
                         type="number"
                         value={duration}

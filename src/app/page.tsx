@@ -53,7 +53,7 @@ export default function Home() {
                 <div className="h-4"></div>
 
                 {/* Lower Half - Remaining Height and Full Width */}
-                <div className="flex-1 w-full flex">
+                <div className="flex-1 w-full flex min-h-0">
 
                     {/* Left Section - Flexible Width and Full Height */}
                     <div className="flex-1 h-full">
@@ -80,10 +80,11 @@ export default function Home() {
                     <div className="w-4"></div>
 
                     {/* Right Section - Fixed Width (380px) */}
-                    <div className="w-[380px] h-full">
-                        <ExerciseListCard/>
+                    <div className="w-[380px] flex flex-col min-h-0 h-full">
+                        <div className="flex-1 min-h-0">
+                            <ExerciseListCard/>
+                        </div>
                     </div>
-
                 </div>
 
             </div>

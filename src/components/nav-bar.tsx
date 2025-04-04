@@ -34,7 +34,7 @@ export default function NavBar() {
     return (
         <nav className="flex justify-between items-center px-4 pt-3 pb-5 bg-[var(--background)] h-20 min-w-[1000px]">
             {/* Left Side: Icon Placeholder */}
-            <img src="/logo7.png" alt="Icon" className="h-16 w-30 object-contain"/>
+            <img src="/logo8.png" alt="Icon" className="h-16 w-30 object-contain cursor-pointer" onClick={() => router.push("/")}/>
 
             {/* Middle Section: Navigation Links */}
             <div className="space-x-14 ">
@@ -47,7 +47,7 @@ export default function NavBar() {
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button className="btn-highlight w-30 h-12">Community</Button>
+                        <Button className="btn-highlight w-30 h-12 cursor-pointer">Community</Button>
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent

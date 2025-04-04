@@ -56,17 +56,20 @@ export default function ExerciseListCard() {
     };
 
     return (
-        <Card className="w-full min-w-[350px] h-full flex flex-col card-dark">
+        <Card className="w-full h-full flex flex-col card-dark">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Exercises</h2>
                 <div className="space-x-2">
-                    <Button size="icon" variant="outline" onClick={() => setShowAddModal(true)}>
+                    <Button size="icon"
+                            variant="outline"
+                            onClick={() => setShowAddModal(true)}
+                    className="cursor-pointer bg-transparent">
                         <Plus/>
                     </Button>
                 </div>
             </CardHeader>
 
-            <CardContent className="flex-1 overflow-y-auto">
+            <CardContent className="flex-1 overflow-y-auto no-scrollbar">
                 {/* Grid layout for two columns */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {exercises.map((item) => {
@@ -85,8 +88,14 @@ export default function ExerciseListCard() {
                                     {/* 2. Exercise + Intensity */}
                                     {detail && (
                                         <div className="text-sm text-muted-foreground">
-                                            {detail.exercise} · {detail.intensity}
+                                            <div>
+                                                {detail.exercise}
+                                            </div>
+                                            <div>
+                                                {detail.intensity}
+                                            </div>
                                         </div>
+
                                     )}
 
                                     {/* 3. Calories with Image */}

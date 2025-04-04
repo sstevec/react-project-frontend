@@ -83,22 +83,22 @@ export default function CompetitionCreateModal({ open, onClose, onCreated }: Com
 
                 <div className="space-y-4 py-2">
                     <div className="space-y-1">
-                        <Label>Title</Label>
+                        <Label className="required-label">Title</Label>
                         <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
                     </div>
 
                     <div className="space-y-1">
-                        <Label>Description</Label>
+                        <Label className="required-label">Description</Label>
                         <Textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
                     </div>
 
                     <div className="space-y-1">
-                        <Label>Objective</Label>
+                        <Label className="required-label">Objective</Label>
                         <Input value={objective} onChange={(e) => setObjective(e.target.value)} required />
                     </div>
 
                     <div className="space-y-1">
-                        <Label>Rank Method</Label>
+                        <Label className="required-label">Rank Method</Label>
                         <Select value={rankMethod} onValueChange={(val) => setRankMethod(val as any)}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select rank method" />
@@ -111,7 +111,7 @@ export default function CompetitionCreateModal({ open, onClose, onCreated }: Com
                     </div>
 
                     <div className="space-y-1">
-                        <Label>Access</Label>
+                        <Label className="required-label">Access</Label>
                         <Select value={access} onValueChange={(val) => setAccess(val as any)}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select access level" />
@@ -125,11 +125,11 @@ export default function CompetitionCreateModal({ open, onClose, onCreated }: Com
 
                     <div className="flex gap-4">
                         <div className="space-y-1 flex-1">
-                            <Label>Start Date</Label>
+                            <Label className="required-label">Start Date</Label>
                             <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
                         </div>
                         <div className="space-y-1 flex-1">
-                            <Label>End Date</Label>
+                            <Label className="required-label">End Date</Label>
                             <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
                         </div>
                     </div>
