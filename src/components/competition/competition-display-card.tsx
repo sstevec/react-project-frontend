@@ -37,7 +37,7 @@ export default function CompetitionDisplayCard({
     return (
         <Card
             onClick={onClick}
-            className={`w-[250px] h-[250px] rounded-lg overflow-hidden shadow hover:shadow-md transition cursor-pointer p-0 ${className}`}
+            className={`w-[250px] h-[250px] rounded-lg overflow-hidden transition cursor-pointer p-0 card-lighter  ${className}`}
         >
             {/* Top: Image or fallback color */}
             {competition.imageUrl ? (

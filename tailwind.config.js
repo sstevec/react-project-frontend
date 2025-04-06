@@ -8,6 +8,9 @@ module.exports = {
   darkMode: "class", // Enables dark mode support
   theme: {
     extend: {
+      fontFamily: {
+        cursive: ['var(--font-pacifico)', 'sans-serif'],
+      },
     },
   },
   plugins: [],

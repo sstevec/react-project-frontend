@@ -18,9 +18,10 @@ interface SummaryData {
 interface ConcentricRingStatsProps {
     userId: string | null;
     editable: boolean;
+    trigger: number;
 }
 
-export default function ConcentricRingStats({ userId, editable }: ConcentricRingStatsProps) {
+export default function ConcentricRingStats({ userId, editable, trigger }: ConcentricRingStatsProps) {
     const [data, setData] = useState<SummaryData | null>(null);
     const {showAlert} = useAlert();
     const [hoverInfo, setHoverInfo] = useState<{ label: string; value: number } | null>(null);
@@ -58,7 +59,7 @@ export default function ConcentricRingStats({ userId, editable }: ConcentricRing
 
     useEffect(() => {
         fetchData();
-    }, [userId]);
+    }, [userId, trigger]);
 
 
     const getCircumference = (radius: number) => 2 * Math.PI * radius;
@@ -251,15 +252,17 @@ export default function ConcentricRingStats({ userId, editable }: ConcentricRing
             </svg>
 
             {/* Rest of the component remains the same */}
-            {editable && (<Button
-                size="icon"
-                variant="ghost"
-                className="absolute top-[110px] left-[310px] w-20 h-20 rounded-full cursor-pointer"
-                onClick={fetchData}
-                disabled={!editable}
-            >
-                {/*<RefreshCcw className="h-10 w-10  text-green-800"/>*/}
-            </Button>)}
+            {/*{editable && (*/}
+            {/*    <Button*/}
+            {/*        size="icon"*/}
+            {/*        variant="ghost"*/}
+            {/*        className="absolute top-[150px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full cursor-pointer"*/}
+            {/*        onClick={fetchData}*/}
+            {/*        disabled={!editable}*/}
+            {/*    >*/}
+            {/*        <RefreshCcw className="h-10 w-10 text-green-800" />*/}
+            {/*    </Button>*/}
+            {/*)}*/}
 
             {hoverInfo && (
                 <div className="absolute bg-white shadow-lg p-2 rounded-lg text-sm">

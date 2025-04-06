@@ -7,6 +7,14 @@ import "./globals.css";
 import "../styles/custom-theme-based.css"
 import {AlertProvider} from "@/components/alert/alert-provider";
 
+import { Pacifico } from 'next/font/google';
+
+const pacifico = Pacifico({
+    subsets: ['latin'],
+    weight: '400',
+    variable: '--font-pacifico',
+});
+
 export default function RootLayout({children}: { children: React.ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
@@ -39,14 +47,17 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
 
     return (
         <html lang="en" className="h-full">
-        <body className="h-full m-0 p-0 overflow-hidden">
+        <body className={`h-full m-0 p-0 overflow-hidden`}>
         <div className="flex flex-col h-full w-full">
             <NavBar/>
             <AlertProvider>
-                <main className="flex-1 overflow-auto">{children}</main>
+                <main className="flex-1 overflow-auto">
+                    {children}
+                </main>
             </AlertProvider>
         </div>
         </body>
         </html>
+
     );
 }

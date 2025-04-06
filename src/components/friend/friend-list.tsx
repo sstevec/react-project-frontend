@@ -112,61 +112,86 @@ export default function FriendList({onFriendSelect}: FriendListProps) {
     };
 
     return (
-        <Card className="w-full h-full p-6 flex flex-col min-w-[350px] card-inline">
+        <Card className="w-full h-full px-6 pb-6 pt-2 flex flex-col min-w-[350px] card-inline">
             {/* Header Row */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-semibold">Friends</h1>
-                <div className="flex space-x-2">
-                    <Button className="relative cursor-pointer hover:bg-white" size="icon" variant="outline"
-                            onClick={() => setShowRequestsDialog(true)}>
+            <div className="relative h-22 w-full flex items-center justify-center pb-2">
+                {/* Centered Title Image */}
+                <div
+                    className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-semibold">
+                    <img src="/friends-font.png" alt="Icon" className="h-auto w-40 object-contain"/>
+                </div>
+
+                {/* Right-Aligned Button Stack */}
+                <div className="absolute right-2 top-2 flex flex-col items-end gap-y-0">
+                    {/* Bell Button */}
+                    <Button
+                        className="relative cursor-pointer hover:bg-white p-2"
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setShowRequestsDialog(true)}
+                    >
                         <Bell/>
                         {friendRequests.length > 0 && (
                             <span
-                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">{friendRequests.length}</span>
+                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+          {friendRequests.length}
+        </span>
                         )}
                     </Button>
-                    <Button size="icon" variant="outline" onClick={() => setShowAddDialog(true)} className="cursor-pointer hover:bg-white">
+
+                    {/* Add Button */}
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => setShowAddDialog(true)}
+                        className="cursor-pointer hover:bg-white p-2"
+                    >
                         <Plus/>
                     </Button>
                 </div>
             </div>
 
+
             {/* Friend List */}
-            <div className="flex-1 overflow-y-auto grid grid-cols-1 gap-1">
+            <div className="flex-1 overflow-y-auto no-scrollbar">
                 {friends.length === 0 ? (
                     <p className="text-gray-500">You have no friends yet.</p>
                 ) : (
-                    friends.map((friend, index) => (
-                        <Card
-                            key={friend.id || `friend-${index}`}
-                            className="h-[60px] flex items-center py-2 px-2 justify-center card-dark"
-                            onClick={() => onFriendSelect(friend.receiver.id)}
-                        >
-                            <CardContent className="flex items-center justify-between w-full px-1">
-                                <div className="flex items-center">
-                                    <img
-                                        src={friend.receiver.profilePicUrl || "/vercel.svg"}
-                                        alt={friend.receiver.name}
-                                        className="w-10 h-10 rounded-full object-cover mr-4"
-                                    />
-                                    <span>{friend.receiver.name}</span>
-                                </div>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button size="icon" variant="ghost">
-                                            <MoreVertical/>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem onClick={() => handleDeleteFriend(friend.receiver.id)}>Delete
-                                            Friend</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </CardContent>
-                        </Card>
-                    ))
+                    <div className="flex flex-col space-y-4">
+                        {friends.map((friend, index) => (
+                            <Card
+                                key={friend.id || `friend-${index}`}
+                                className="h-[60px] flex items-center py-2 px-2 justify-center card-dark"
+                                onClick={() => onFriendSelect(friend.receiver.id)}
+                            >
+                                <CardContent className="flex items-center justify-between w-full px-1">
+                                    <div className="flex items-center">
+                                        <img
+                                            src={friend.receiver.profilePicUrl || "/vercel.svg"}
+                                            alt={friend.receiver.name}
+                                            className="w-10 h-10 rounded-full object-cover mr-4"
+                                        />
+                                        <span>{friend.receiver.name}</span>
+                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button size="icon" variant="ghost">
+                                                <MoreVertical/>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem onClick={() => handleDeleteFriend(friend.receiver.id)}>
+                                                Delete Friend
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 )}
             </div>
+
 
             {/* Add Friend Dialog */}
             <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>

@@ -140,8 +140,9 @@ export default function FriendZonePage() {
     return (
         <div className="mx-auto py-6 w-[60%] min-w-[632px] max-w-[800px] space-y-6">
             {/* New Post Card */}
-            <Card className="p-4 space-y-4">
+            <Card className="p-4 space-y-4 card-dark">
                 <Textarea
+                    className="text-field"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="What's on your mind?"
@@ -159,7 +160,7 @@ export default function FriendZonePage() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <Button
-                            variant="outline"
+                            className="btn-primary"
                             size="sm"
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
@@ -195,7 +196,7 @@ export default function FriendZonePage() {
             {/* Friend Posts Feed */}
             <div className="space-y-6">
                 {posts.map((post) => (
-                    <Card key={post.id} className="p-4 space-y-2">
+                    <Card key={post.id} className="p-4 space-y-2 card-dark">
                         <div className="flex items-center gap-3">
                             <Avatar>
                                 <AvatarImage src={post.user.profilePicUrl || "/globe.svg"} />

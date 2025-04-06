@@ -34,7 +34,6 @@ export default function ExerciseDetailModal({
                                                 onAdd,
                                             }: Props) {
     const {showAlert} = useAlert();
-    const [name, setName] = useState(exercise?.name || "");
     const [exerciseList, setExerciseList] = useState<string[]>([]);
     const [intensityList, setIntensityList] = useState<string[]>([]);
     const [presetData, setPresetData] = useState<{ intensity: string; metValue: number }[]>([]);
@@ -83,14 +82,7 @@ export default function ExerciseDetailModal({
 
     const handleSave = async () => {
         const detail = JSON.stringify({exercise: exerciseName, intensity, metValue, duration});
-        if (!name.trim()) {
-            showAlert("Name is required", "error");
-            return;
-        }
-        if (name.length > 15) {
-            showAlert("Name is too long", "error");
-            return;
-        }
+
         if (!exerciseName.trim()) {
             showAlert("Exercise name is required", "error");
             return;
@@ -111,14 +103,12 @@ export default function ExerciseDetailModal({
         try {
             if (mode === "edit" && exercise) {
                 await axios.put(`/api/calories/exercise/${userId}/${exercise.id}`, {
-                    newName: name,
                     newDetail: detail,
                 });
                 onUpdate?.();
             } else if (mode === "add") {
                 await axios.post("/api/calories/exercise", {
                     userId,
-                    customName: name,
                     exercise: exerciseName,
                     intensity,
                     metValue,
@@ -152,9 +142,6 @@ export default function ExerciseDetailModal({
                 </DialogHeader>
 
                 <div className="space-y-1">
-                    <Label className="required-label pt-3">Name</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)}/>
-
                     {mode === "edit" && (
                         <div>
                             <Label className="text-muted-foreground">Calories Burned</Label>

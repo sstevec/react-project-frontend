@@ -44,6 +44,9 @@ export default function WaterTracker() {
         <Card className="w-full h-full p-2 flex flex-col items-center justify-center gap-0 card-dark">
             {/* Title */}
             <h1 className="text-xl font-semibold mb-1">Water</h1>
+            {/*<div>*/}
+            {/*    <img src="/water-font.png" alt="Icon" className="h-auto w-40 object-contain"/>*/}
+            {/*</div>*/}
 
             {/* SVG Placeholder */}
             <div className="w-auto h-30 rounded-full mb-1 flex items-center justify-center overflow-hidden"

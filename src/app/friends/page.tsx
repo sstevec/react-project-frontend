@@ -3,7 +3,7 @@
 import ConcentricRingStats from "@/components/stats/concentric-ring-stats";
 import LineGraph from "@/components/stats/line-graph";
 import WaterTrackerViewOnly from "@/components/friend/water-tracker";
-import StepTracker from "@/components/stats/step-tracker";
+import StepTracker from "@/components/friend/step-tracker";
 import {useState} from "react";
 import FriendList from "@/components/friend/friend-list";
 import FriendActiveCompetitions from "@/components/friend/active-competition";
@@ -28,7 +28,7 @@ export default function FriendPage() {
 
                     {/* Left Section - Fixed Width (380px) */}
                     <div className="flex-1 h-full min-w-[600px]">
-                        <ConcentricRingStats userId={selectedFriendId} editable={false}/>
+                        <ConcentricRingStats userId={selectedFriendId} editable={false} trigger={0}/>
                     </div>
 
                     {/* Right Section - Remaining Width with Gap */}

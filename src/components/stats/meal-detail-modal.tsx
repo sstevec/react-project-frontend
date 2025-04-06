@@ -52,6 +52,15 @@ export default function MealDetailModal({
     const [mealName, setMealName] = useState(meal?.name || "");
     const [foods, setFoods] = useState<FoodItem[]>(() => (meal ? JSON.parse(meal.detail) : []));
     const [presets, setPresets] = useState<string[]>([]);
+    const mealNameOptions = [
+        "Breakfast",
+        "Brunch",
+        "Lunch",
+        "Dinner",
+        "Pre-Workout",
+        "Post-Workout",
+        "Snack",
+    ];
 
     useEffect(() => {
         axios.get("/api/calories/food/list").then(({data}) => setPresets(data));
@@ -92,7 +101,12 @@ export default function MealDetailModal({
 
     const handlePresetSelect = async (foodIndex: number, presetName: string) => {
         try {
-            const {data} = await axios.get(`/api/calories/food/detail/${presetName}`);
+            if (!presetName) return;
+
+            const { data } = await axios.get(
+                `/api/calories/food/detail?name=${encodeURIComponent(presetName)}`
+            );
+
             setFoods((prev) => {
                 const updated = [...prev];
                 updated[foodIndex].foodName = presetName;
@@ -103,6 +117,7 @@ export default function MealDetailModal({
             showAlert("Failed to load preset details", "error");
         }
     };
+
 
     const handleConfirm = async () => {
         const isValid = foods.every(f => f.amount > 0 && f.foodName.trim() !== "");
@@ -145,102 +160,112 @@ export default function MealDetailModal({
 
     return (
         <Dialog open onOpenChange={onClose}>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle>{mode === "edit" ? "Edit Meal" : "Add New Meal"}</DialogTitle>
                 </DialogHeader>
 
-                <Button size="sm" variant="outline" onClick={addFoodItem} className="mb-4">
-                    + Add Food Item
-                </Button>
 
-                <div className="space-y-4">
-                    <div>
-                        <Label className="required-label pb-1">Meal Name</Label>
-                        <Input value={mealName} onChange={(e) => setMealName(e.target.value)}/>
-                    </div>
-
-                    {foods.map((food, idx) => (
-                        <div key={idx} className="border rounded p-3 space-y-2">
-                            <div className="flex justify-between items-center">
-                                <Label>Item {idx + 1}</Label>
-                                <Button variant="ghost" size="sm" onClick={() => removeFoodItem(idx)}>🗑️</Button>
-                            </div>
+                <div className="flex-1 overflow-y-auto space-y-4 no-scrollbar pb-1">
+                    <div className="sticky top-0 z-10 bg-background pb-3">
+                        <div>
+                            <Label className="required-label pb-1">Meal Name</Label>
                             <CustomCombobox
-                                options={presets}
-                                value={food.foodName}
-                                onChange={(val) => handlePresetSelect(idx, val)}
-                                placeholder="Select or enter food name"
+                                options={mealNameOptions}
+                                value={mealName}
+                                onChange={setMealName}
+                                placeholder="Select a meal..."
                             />
-                            <Input
-                                type="number"
-                                value={food.amount}
-                                onChange={(e) => {
-                                    const amount = parseFloat(e.target.value);
-                                    if (amount > 0)
-                                        setFoods((prev) => prev.map((f, i) => (i === idx ? {...f, amount} : f)));
-                                }}
-                                placeholder="Amount"
-                            />
+                        </div>
 
-                            <div className="pl-4">
-                                <Label className="pt-2 pb-1">Ingredients</Label>
-                                {food.ingredients.map((ing, ingIdx) => (
-                                    <div key={ingIdx} className="flex gap-2 items-center">
-                                        <Input
-                                            value={ing.name}
-                                            onChange={(e) => {
-                                                const name = e.target.value;
-                                                setFoods((prev) => {
-                                                    const updated = [...prev];
-                                                    updated[idx].ingredients[ingIdx].name = name;
-                                                    return updated;
-                                                });
-                                            }}
-                                            placeholder="Name"
-                                        />
-                                        <div className="flex items-center gap-1">
+                        <Button size="sm" variant="outline" onClick={addFoodItem} className="mt-3">
+                            + Add Food Item
+                        </Button>
+                    </div>
+                    <div className="space-y-4">
+                        {foods.map((food, idx) => (
+                            <div key={idx} className="border rounded p-3 space-y-2">
+                                <div className="flex justify-between items-center">
+                                    <Label>Item {idx + 1}</Label>
+                                    <Button variant="ghost" size="sm" onClick={() => removeFoodItem(idx)}>🗑️</Button>
+                                </div>
+                                <CustomCombobox
+                                    options={presets}
+                                    value={food.foodName}
+                                    onChange={(val) => handlePresetSelect(idx, val)}
+                                    placeholder="Select or enter food name"
+                                />
+                                <Input
+                                    type="number"
+                                    value={food.amount}
+                                    onChange={(e) => {
+                                        const amount = parseFloat(e.target.value);
+                                        if (amount > 0)
+                                            setFoods((prev) => prev.map((f, i) => (i === idx ? {...f, amount} : f)));
+                                    }}
+                                    placeholder="Amount"
+                                />
+
+                                <div className="pl-4">
+                                    <Label className="pt-2 pb-1">Nutrition</Label>
+                                    {food.ingredients.map((ing, ingIdx) => (
+                                        <div key={ingIdx} className="flex gap-2 items-center">
                                             <Input
-                                                className="w-min-20"
-                                                type="number"
-                                                value={ing.amount}
+                                                value={ing.name}
                                                 onChange={(e) => {
-                                                    const amount = parseFloat(e.target.value);
+                                                    const name = e.target.value;
                                                     setFoods((prev) => {
                                                         const updated = [...prev];
-                                                        updated[idx].ingredients[ingIdx].amount = amount;
+                                                        updated[idx].ingredients[ingIdx].name = name;
                                                         return updated;
                                                     });
                                                 }}
-                                                placeholder="Amount"
+                                                placeholder="Name"
                                             />
-                                            <span>g</span>
+                                            <div className="flex items-center gap-1">
+                                                <Input
+                                                    className="w-min-20"
+                                                    type="number"
+                                                    value={ing.amount}
+                                                    onChange={(e) => {
+                                                        const amount = parseFloat(e.target.value);
+                                                        setFoods((prev) => {
+                                                            const updated = [...prev];
+                                                            updated[idx].ingredients[ingIdx].amount = amount;
+                                                            return updated;
+                                                        });
+                                                    }}
+                                                    placeholder="Amount"
+                                                />
+                                                <span>g</span>
+                                            </div>
+                                            <Input
+                                                className="w-20"
+                                                type="number"
+                                                value={ing.caloriePerGram}
+                                                onChange={(e) => {
+                                                    const cal = parseFloat(e.target.value);
+                                                    setFoods((prev) => {
+                                                        const updated = [...prev];
+                                                        updated[idx].ingredients[ingIdx].caloriePerGram = cal;
+                                                        return updated;
+                                                    });
+                                                }}
+                                                placeholder="Cal/g"
+                                            />
+                                            <Button variant="ghost" size="sm"
+                                                    onClick={() => removeIngredient(idx, ingIdx)}>
+                                                ✖
+                                            </Button>
                                         </div>
-                                        <Input
-                                            className="w-20"
-                                            type="number"
-                                            value={ing.caloriePerGram}
-                                            onChange={(e) => {
-                                                const cal = parseFloat(e.target.value);
-                                                setFoods((prev) => {
-                                                    const updated = [...prev];
-                                                    updated[idx].ingredients[ingIdx].caloriePerGram = cal;
-                                                    return updated;
-                                                });
-                                            }}
-                                            placeholder="Cal/g"
-                                        />
-                                        <Button variant="ghost" size="sm" onClick={() => removeIngredient(idx, ingIdx)}>
-                                            ✖
-                                        </Button>
-                                    </div>
-                                ))}
-                                <Button size="sm" onClick={() => addIngredient(idx)} className="mt-2">
-                                    + Add Ingredient
-                                </Button>
+                                    ))}
+                                    <Button size="sm" onClick={() => addIngredient(idx)} className="mt-2">
+                                        + Add Nutrition
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
 
                 <DialogFooter className="mt-4">

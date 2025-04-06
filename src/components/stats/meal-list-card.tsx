@@ -25,7 +25,11 @@ type FoodItem = {
     }[];
 };
 
-export default function MealListCard() {
+interface MealListCardProps {
+    onMealUpdateAction: () => void;
+}
+
+export default function MealListCard({onMealUpdateAction}: MealListCardProps) {
     const [meals, setMeals] = useState<MealItem[]>([]);
     const [selectedMeal, setSelectedMeal] = useState<MealItem | null>(null);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -60,17 +64,23 @@ export default function MealListCard() {
 
     return (
         <Card className="w-full min-w-[350px] h-full flex flex-col card-inline ">
-            <CardHeader className="flex flex-row justify-between items-center pb-2">
-                <h2 className="text-lg font-semibold">Meals</h2>
-                <div className="space-x-2">
-                    <Button size="icon"
-                            variant="outline"
-                            onClick={() => setShowAddModal(true)}
-                            className="cursor-pointer hover:bg-white">
+            <CardHeader className="relative flex flex-row items-center justify-between pb-2">
+                <div className="absolute left-1/2 transform -translate-x-1/2 text-lg font-semibold">
+                    <h2 className="text-lg font-semibold">Meals</h2>
+                    {/*<img src="/meal-font.png" alt="Icon" className="h-auto w-40 object-contain"/>*/}
+                </div>
+                <div className="space-x-2 ml-auto">
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => setShowAddModal(true)}
+                        className="cursor-pointer hover:bg-white"
+                    >
                         <Plus/>
                     </Button>
                 </div>
             </CardHeader>
+
 
             <CardContent className="flex-1 overflow-y-auto space-y-4 no-scrollbar">
                 {meals.map((meal) => {
@@ -113,11 +123,13 @@ export default function MealListCard() {
                     onUpdate={async (updated) => {
                         await fetchMeals(userId);
                         setSelectedMeal(null);
+                        onMealUpdateAction()
                         showAlert("Meal updated successfully!", "success");
                     }}
                     onDelete={(deletedId) => {
                         setMeals((prev) => prev.filter((m) => m.id !== deletedId));
                         showAlert("Meal deleted", "success");
+                        onMealUpdateAction()
                         setSelectedMeal(null);
                     }}
                 />
@@ -132,6 +144,7 @@ export default function MealListCard() {
                     onAdd={async () => {
                         await fetchMeals(userId);
                         setShowAddModal(false);
+                        onMealUpdateAction()
                         showAlert("Meal added successfully!", "success");
                     }}
                 />

@@ -13,7 +13,11 @@ interface NutritionData {
     percentageSatisfied?: number;
 }
 
-export default function NutritionTable() {
+interface NutritionDataProp {
+    trigger: number
+}
+
+export default function NutritionTable({trigger} : NutritionDataProp) {
     const [data, setData] = useState<NutritionData[]>([]);
     const [filteredData, setFilteredData] = useState<NutritionData[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
@@ -33,7 +37,7 @@ export default function NutritionTable() {
                 setFilteredData(data);
             })
             .catch(() => showAlert("Failed to load nutrition data", "error"));
-    }, []);
+    }, [trigger]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value.toLowerCase();
@@ -50,6 +54,7 @@ export default function NutritionTable() {
         return Math.floor(containerHeight / 60);
     };
 
+    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
     return (
         <Card className="w-full h-full p-4 overflow-hidden card-dark">
             {/* Search Bar */}
@@ -68,28 +73,50 @@ export default function NutritionTable() {
                             gridTemplateColumns: `repeat(${calculateColumns(document.getElementById('nutrition-container')?.offsetWidth || 0)}, 1fr)`
                         }}
                     >
-                        {filteredData.slice(0, calculateRows(document.getElementById('nutrition-container')?.offsetHeight || 0) * calculateColumns(document.getElementById('nutrition-container')?.offsetWidth || 0)).map((item, index) => {
-                            const max = item.recommendedAmount ?? item.amount;
-                            const percentage = item.percentageSatisfied ?? 100;
+                        {filteredData
+                            .slice(
+                                0,
+                                calculateRows(document.getElementById("nutrition-container")?.offsetHeight || 0) *
+                                calculateColumns(document.getElementById("nutrition-container")?.offsetWidth || 0)
+                            )
+                            .map((item, index) => {
+                                const max = item.recommendedAmount ?? item.amount;
+                                const percentage = item.percentageSatisfied ?? 100;
 
-                            return (
-                                <div key={index} className="p-2 h-[60px] w-[310px]">
-                                    <div className="flex justify-between mb-1">
-                                        <span>{item.name}</span>
-                                        <span>{item.amount}/{max}</span>
+                                // Formatting value and units
+                                const isMg = max < 1;
+                                const displayAmount = isMg
+                                    ? `${(item.amount * 1000).toFixed(2)} mg`
+                                    : `${item.amount.toFixed(2)} g`;
+                                const displayMax = isMg
+                                    ? `${(max * 1000).toFixed(2)} mg`
+                                    : `${max.toFixed(2)} g`;
+
+                                // Progress bar color logic
+                                let color = "var(--primary)";
+                                if (percentage < 30 || percentage > 160) color = "var(--error)";
+                                else if ((percentage >= 30 && percentage < 70) || (percentage > 120 && percentage <= 160))
+                                    color = "var(--food)"; // yellow
+                                else if (percentage >= 70 && percentage <= 120) color = "var(--net-neg)"; // green
+
+                                return (
+                                    <div key={index} className="p-2 h-[60px] w-[310px]">
+                                        <div className="flex justify-between mb-1 text-sm">
+                                            <span>{capitalize(item.name)}</span>
+                                            <span>{displayAmount} / {displayMax}</span>
+                                        </div>
+                                        <div className="relative w-full h-4 bg-gray-200 rounded-full">
+                                            <div
+                                                className="h-full rounded-full"
+                                                style={{
+                                                    width: `${Math.min(percentage, 200)}%`,
+                                                    backgroundColor: color,
+                                                }}
+                                            ></div>
+                                        </div>
                                     </div>
-                                    <div className="relative w-full h-4 bg-gray-200 rounded-full">
-                                        <div
-                                            className="h-full rounded-full"
-                                            style={{
-                                                width: `${percentage}%`,
-                                                backgroundColor: percentage >= 100 ? 'var(--error)' : 'var(--primary)',
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
                     </div>
                 )}
             </div>

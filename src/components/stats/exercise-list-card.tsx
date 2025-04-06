@@ -22,7 +22,11 @@ interface ParsedDetail {
     duration: number;
 }
 
-export default function ExerciseListCard() {
+interface ExerciseListCardProps {
+    onExerciseUpdateAction: () => void;
+}
+
+export default function ExerciseListCard({ onExerciseUpdateAction }: ExerciseListCardProps) {
     const [exercises, setExercises] = useState<ExerciseItem[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [selectedExercise, setSelectedExercise] = useState<ExerciseItem | null>(null);
@@ -59,11 +63,14 @@ export default function ExerciseListCard() {
         <Card className="w-full h-full flex flex-col card-dark">
             <CardHeader className="flex flex-row justify-between items-center pb-2">
                 <h2 className="text-lg font-semibold">Exercises</h2>
-                <div className="space-x-2">
+                {/*<div className="absolute left-1/2 transform -translate-x-1/2 text-lg font-semibold">*/}
+                {/*    <img src="/exercise-font.png" alt="Icon" className="h-auto w-40 object-contain"/>*/}
+                {/*</div>*/}
+                <div className="space-x-2 ml-auto">
                     <Button size="icon"
                             variant="outline"
                             onClick={() => setShowAddModal(true)}
-                    className="cursor-pointer bg-transparent">
+                            className="cursor-pointer bg-transparent">
                         <Plus/>
                     </Button>
                 </div>
@@ -72,7 +79,7 @@ export default function ExerciseListCard() {
             <CardContent className="flex-1 overflow-y-auto no-scrollbar">
                 {/* Grid layout for two columns */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {exercises.map((item) => {
+                {exercises.map((item) => {
                         const detail = parseDetail(item.detail);
 
                         return (
@@ -88,9 +95,6 @@ export default function ExerciseListCard() {
                                     {/* 2. Exercise + Intensity */}
                                     {detail && (
                                         <div className="text-sm text-muted-foreground">
-                                            <div>
-                                                {detail.exercise}
-                                            </div>
                                             <div>
                                                 {detail.intensity}
                                             </div>
@@ -134,11 +138,13 @@ export default function ExerciseListCard() {
                     onUpdate={async () => {
                         await fetchExercises(userId);
                         setSelectedExercise(null);
+                        onExerciseUpdateAction();
                         showAlert("Exercise updated", "success");
                     }}
                     onDelete={async () => {
                         await fetchExercises(userId);
                         setSelectedExercise(null);
+                        onExerciseUpdateAction();
                         showAlert("Exercise deleted", "success");
                     }}
                 />
@@ -153,6 +159,7 @@ export default function ExerciseListCard() {
                     onAdd={async () => {
                         await fetchExercises(userId);
                         setShowAddModal(false);
+                        onExerciseUpdateAction();
                         showAlert("Exercise added", "success");
                     }}
                 />

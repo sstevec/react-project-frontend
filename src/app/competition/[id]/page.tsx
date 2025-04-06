@@ -102,7 +102,7 @@ export default function CompetitionDetailPage() {
 
     return (
         <div className="w-[70%] max-w-[1500px] min-w-[1000px] mx-auto py-6 mt-0">
-            <Card className="overflow-hidden pt-0">
+            <Card className="overflow-hidden pt-0 card-lighter">
                 {/* Top Image */}
                 {competition.imageUrl ? (
                     <img src={competition.imageUrl} alt="Competition" className="w-full h-[350px] object-cover"/>
@@ -146,7 +146,7 @@ export default function CompetitionDetailPage() {
                             {isCreator && (
                                 <Button
                                     size="icon"
-                                    variant="outline"
+                                    // variant="outline"
                                     onClick={recompute}
                                     disabled={!isActive}
                                     title={!isActive ? "Competition is not active" : "Refresh leaderboard"}
@@ -160,7 +160,7 @@ export default function CompetitionDetailPage() {
                             <div className="text-sm text-muted-foreground italic">No participants yet. Be the first to
                                 join and climb the leaderboard!</div>
                         ) : (
-                            <div className="rounded-md overflow-hidden border">
+                            <div className="rounded-md overflow-hidden ">
                                 <div className="flex items-center font-semibold text-sm bg-gray-200 px-4 py-2">
                                     <div className="w-[150px]">Rank</div>
                                     <div className="flex-1">Participant</div>

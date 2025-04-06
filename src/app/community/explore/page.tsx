@@ -97,7 +97,7 @@ export default function ExplorePage() {
             {/* Masonry-style column layout */}
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 {posts.map((post) => (
-                    <Card key={post.id} className="break-inside-avoid p-4 space-y-2 mb-6">
+                    <Card key={post.id} className="break-inside-avoid p-4 space-y-2 mb-6 card-dark">
                         <div className="flex items-center gap-3">
                             <Avatar>
                                 <AvatarImage src={post.user.profilePicUrl || "/globe.svg"} />

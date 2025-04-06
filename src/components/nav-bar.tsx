@@ -37,17 +37,17 @@ export default function NavBar() {
             <img src="/logo8.png" alt="Icon" className="h-16 w-30 object-contain cursor-pointer" onClick={() => router.push("/")}/>
 
             {/* Middle Section: Navigation Links */}
-            <div className="space-x-14 ">
-                <Button className="btn-highlight w-30 h-12" asChild>
-                    <Link href="/">Dashboard</Link>
+            <div className="space-x-20 ">
+                <Button className="btn-highlight w-32 h-10" asChild>
+                    <Link href="/"><div className="font-bold">Dashboard</div></Link>
                 </Button>
-                <Button className="btn-highlight w-30 h-12" asChild>
-                    <Link href="/friends">Friends</Link>
+                <Button className="btn-highlight w-30 h-10" asChild>
+                    <Link href="/friends"><div className="font-bold">Friends</div></Link>
                 </Button>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button className="btn-highlight w-30 h-12 cursor-pointer">Community</Button>
+                        <Button className="btn-highlight w-30 h-10 cursor-pointer"><div className="font-bold">Community</div></Button>
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent
@@ -63,15 +63,15 @@ export default function NavBar() {
                     </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button className="btn-highlight w-30 h-12" asChild>
-                    <Link href="/competition">Competition</Link>
+                <Button className="btn-highlight w-30 h-10" asChild>
+                    <Link href="/competition"><div className="font-bold">Competition</div></Link>
                 </Button>
             </div>
 
             {/* Right Side: Profile Dropdown */}
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <Avatar>
+                    <Avatar className="h-12 w-12">
                         <AvatarImage src={profilePic || "/globe.svg"} alt="Profile"/>
                         <AvatarFallback>U</AvatarFallback>
                     </Avatar>

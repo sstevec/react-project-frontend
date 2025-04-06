@@ -39,6 +39,7 @@
     --primary-dark: oklch(0.168 0.029 186.597);
     --primary-light: oklch(0.678 0.112 182.043);
     --highlight: oklch(0.804 0.159 74.886);
+    --highlight-light: oklch(0.892 0.116 85.629);
     --secondary: oklch(0.822 0.104 6.11);
     --error: oklch(0.669 0.206 28.058);
     --textPrimary: oklch(0.972 0.006 170.448);
@@ -90,6 +91,7 @@
     --background: oklch(0.972 0.006 170.448);
     --primary: oklch(0.911 0.011 189.805);
     --highlight: oklch(0.804 0.159 74.886);
+    --highlight-light: oklch(0.808 0.153 76.067);
     --secondary: oklch(0.822 0.104 6.11);
     --error: oklch(0.669 0.206 28.058);
     --textPrimary: oklch(0.972 0.006 170.448);

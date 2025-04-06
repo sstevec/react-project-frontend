@@ -75,7 +75,7 @@ export default function ProfileInfoEditor() {
     if (!user) return null;
 
     return (
-        <Card className="w-full h-[350px] flex flex-row items-center px-6 py-4 gap-6 relative">
+        <Card className="w-full h-[350px] flex flex-row items-center px-6 py-4 gap-6 relative card-lighter">
             {/* Edit Button */}
             <div className="absolute top-4 right-4">
                 <Button onClick={editMode ? handleSave : () => setEditMode(true)}>
