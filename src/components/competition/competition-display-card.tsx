@@ -1,8 +1,8 @@
 "use client";
 
-import { Competition } from "./competition-type";
-import { format } from "date-fns";
-import { Card } from "@/components/ui/card";
+import {Competition} from "./competition-type";
+import {format} from "date-fns";
+import {Card} from "@/components/ui/card";
 
 interface CompetitionDisplayCardProps {
     competition: Competition;
@@ -24,7 +24,12 @@ function getRandomColor(seed: string) {
 }
 
 function formatDate(dateStr: string) {
-    return format(new Date(dateStr), "yyyy MMM d");
+    try{
+        return dateStr.split("T")[0];
+    } catch(e){
+        console.log(e, dateStr);
+    }
+
 }
 
 export default function CompetitionDisplayCard({

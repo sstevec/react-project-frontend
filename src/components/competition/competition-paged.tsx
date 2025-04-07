@@ -28,6 +28,10 @@ export default function CompetitionPaged({ userId, type }: CompetitionPagedProps
             .get(url, { params: { page } })
             .then(({ data }) => {
                 if (Array.isArray(data)) {
+                    if (type === "joined") {
+                        data = data.map((item: any) => item.competition);
+                    }
+
                     setCompetitions(data);
                     setHasMore(data.length === 10);
                 } else {

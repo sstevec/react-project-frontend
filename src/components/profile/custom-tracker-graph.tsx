@@ -58,25 +58,25 @@ export function TrackerGraph() {
         fetchData();
     }, [userId]);
 
-    // Merge the tracker entries into a unified date-based data array
-    const mergedData: any[] = [];
+    // 1. Collect all unique dates from all trackers
     const dateSet = new Set<string>();
     TRACKERS.forEach(name => {
         entries[name]?.forEach(entry => {
-            const dateStr = entry.createdAt.split("T")[0]; // match precise day
+            const dateStr = entry.createdAt.split("T")[0]; // yyyy-mm-dd
             dateSet.add(dateStr);
         });
     });
-    const dates = Array.from(dateSet).sort();
+    const sortedDates = Array.from(dateSet).sort();
 
-    for (const date of dates) {
-        const row: any = { date: date.slice(5) };
+    // 2. Build merged data where each row has a value per tracker (or undefined)
+    const mergedData = sortedDates.map(date => {
+        const row: any = { date: date.slice(5) }; // MM-DD
         for (const name of TRACKERS) {
-            const point = entries[name]?.find(e => e.createdAt.split("T")[0] === date);
-            if (point) row[name] = point.detail.value;
+            const point = entries[name]?.find(e => e.createdAt.startsWith(date));
+            row[name] = point ? point.detail.value : undefined;
         }
-        mergedData.push(row);
-    }
+        return row;
+    });
 
     return (
         <Card className="w-full h-full pt-4 pb-0 pl-0 pr-4 m-0 card-inline">
@@ -95,6 +95,8 @@ export function TrackerGraph() {
                                 stroke={COLOR_MAP[name]}
                                 strokeWidth={2}
                                 dot={{ r: 2 }}
+                                connectNulls={true} // ✅ Important to avoid line breaks
+                                isAnimationActive={false}
                             />
                         ))}
                     </LineChart>
